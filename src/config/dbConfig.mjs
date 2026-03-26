@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
-import { config } from "dotenv"
-config();
+import { setServers } from "node:dns";
+import "dotenv/config";
+setServers(["1.1.1.1", "8.8.8.8"]);
 
-export async function connectToDatabase() {
-    try {
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log("Conexión exitosa a la base de datos");
-    } catch (error) {
-        console.error("Error al conectarse a la base de datos", error)
-        process.exit(1);
-    }
+export async function connectDB() {
+	try {
+		await mongoose.connect(process.env.MONGO_URI);
+		console.log("Conexión éxitosa a la base de datos");
+	} catch (err) {
+		console.error("Error al conectar a la base de datos MongoDB", err);
+		throw Error;
+	}
 }
