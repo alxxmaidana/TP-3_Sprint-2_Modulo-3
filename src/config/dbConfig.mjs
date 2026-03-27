@@ -1,7 +1,9 @@
-import { setServers } from "node:dns";
+import dns from "node:dns";
+import dotenv from "dotenv";
 import mongoose from "mongoose";
-import "dotenv/config";
-setServers(["1.1.1.1", "8.8.8.8"]);
+
+dotenv.config();
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 export async function connectDB() {
 	try {
@@ -9,6 +11,6 @@ export async function connectDB() {
 		console.log("Conexión éxitosa a la base de datos");
 	} catch (err) {
 		console.error("Error al conectar a la base de datos MongoDB", err);
-		throw Error;
+		throw err; // Detiene la ejecución del programa en este punto
 	}
 }

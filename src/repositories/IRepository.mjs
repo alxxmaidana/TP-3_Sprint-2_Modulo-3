@@ -10,6 +10,14 @@ class IRepository {
 	buscarPorAtributo(_atributo, _valor) {
 		throw new Error("Método 'buscarPorAtributo()' no implementado");
 	}
+
+	agregarSuperheroe(_superheroe) {
+		throw new Error("Método 'agregarSueperheroes()' no implementado");
+	}
+
+	eliminarSuperheroe(_nombreSuperheroe) {
+		throw new Error("Método 'eliminarSuperheroe()' no implementado");
+	}
 }
 
 export default IRepository;
