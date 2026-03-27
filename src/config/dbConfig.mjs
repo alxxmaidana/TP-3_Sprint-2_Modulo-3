@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import { setServers } from "node:dns";
+import mongoose from "mongoose";
 import "dotenv/config";
 setServers(["1.1.1.1", "8.8.8.8"]);
 
