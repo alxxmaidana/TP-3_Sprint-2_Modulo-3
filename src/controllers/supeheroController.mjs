@@ -1,6 +1,7 @@
 import superheroes from "../data/nuevosSuperhéroes.js";
 import Superhero from "../models/superhero.mjs";
 import {
+	actualizarSuperheroePorId,
 	agregarNuevoSuperheroe,
 	buscarSuperheoresPorAtributo,
 	eliminarSuperheroePorNombre,
@@ -18,7 +19,7 @@ export async function obtenerSuperheroePorIdController(req, res) {
 	try {
 		const { id } = req.params;
 		const superheroe = await obtenerSuperheroePorId(id);
-		if (!superheroe) {
+		if (superheroe === null) {
 			return res.status(404).send({ mensaje: "Superhéroe no encontrado" });
 		} else {
 			const superheroeFormateado = renderizarSuperheroe(superheroe);
@@ -94,7 +95,6 @@ export async function agregarNuevoSuperheroeController(_req, res) {
 		// Agregar el primer superhéroe del array superheores
 		const nuevoSuperheroe = new Superhero(superheroes[0]);
 		await agregarNuevoSuperheroe(nuevoSuperheroe);
-		console.log("Superheroe agragado");
 		const nuevoSuperheroeFormateado = renderizarSuperheroe(nuevoSuperheroe);
 		res.status(200).json(nuevoSuperheroeFormateado);
 	} catch (err) {
@@ -122,6 +122,60 @@ export async function eliminarSueperheroePorNombreController(req, res) {
 	} catch (err) {
 		res.status(500).send({
 			mensaje: "Error al eliminar el superheroe",
+			err: err.mensaje,
+		});
+	}
+}
+
+// ACTUALIZAR SUPERHÉROE POR ID (con el método findByIdAndUpdate())
+export async function actualizarSuperheroePorIdController(req, res) {
+	try {
+		const { id } = req.params;
+		console.log(id);
+		const superheoreActualizado = await actualizarSuperheroePorId(id, {
+			$set: { edad: 300 },
+		});
+		/* El método findByIdAndUpdate() cuando se resuelve la promesa retorna el documento que se actualizó,
+		si pasamos como parámetro { new: true } nos retorna el documento actualizado,
+		si no pudo encontrar el documento nos devuelve null */
+		if (superheoreActualizado === null) {
+			res.status(404).send({
+				mensaje: "No se encontró el superhéroe, no se pudo actualizar",
+			});
+		} else {
+			const superheroeFormateado = renderizarSuperheroe(superheoreActualizado);
+			res.status(200).json(superheroeFormateado);
+		}
+	} catch (err) {
+		res.status(500).send({
+			mensaje: "Error al actualizar el superhéroe",
+			err: err.mensaje,
+		});
+	}
+}
+
+// ACTUALIZAR SUPERHÉROE POR ID DE OTRA FORMA (usando findById() y save())
+export async function actualizarSuperheroePorIdController2(req, res) {
+	try {
+		const { id } = req.params;
+		// buscar documento por id y comprobar si éxiste
+		const superheroe = await obtenerSuperheroePorId(id);
+		if (superheroe === null) {
+			res.status(404).send({
+				mensaje: "No se encontró el superhéroe, no se pudo actalizar",
+			});
+		} else {
+			// actualizar atributos
+			superheroe.edad = 555;
+			superheroe.creador = "Alexander Maidana";
+			// guardarcambios
+			await agregarNuevoSuperheroe(superheroe);
+			const superheroeFormateado = renderizarSuperheroe(superheroe);
+			res.status(200).json(superheroeFormateado);
+		}
+	} catch (err) {
+		res.status(500).send({
+			mensaje: "Error al actualizar el superhéroe",
 			err: err.mensaje,
 		});
 	}

@@ -14,6 +14,9 @@ class IRepository {
 	eliminarSuperheroe(_nombreSuperheroe) {
 		throw new Error("Método 'eliminarSuperheroe()' no implementado");
 	}
+	actualizarSuperheroe(_id, _operacion) {
+		throw new Error("Método 'actualizarSuperheroe()' no implementado");
+	}
 }
 
 export default IRepository;

@@ -1,6 +1,8 @@
 import express from "express";
 
 import {
+	actualizarSuperheroePorIdController,
+	actualizarSuperheroePorIdController2,
 	agregarNuevoSuperheroeController,
 	buscarSuperheoresPorAtributoController,
 	eliminarSueperheroePorNombreController,
@@ -30,6 +32,13 @@ router.post("/heroes", agregarNuevoSuperheroeController);
 router.delete(
 	"/heroes/eliminar/:nombreSuperheroe",
 	eliminarSueperheroePorNombreController,
+);
+
+// Rutas para actualizar un docuemento por su id
+router.put("/heroes/actualizar/:id", actualizarSuperheroePorIdController);
+router.put(
+	"/heroes/actualizarOtraForma/:id",
+	actualizarSuperheroePorIdController2,
 );
 
 export default router;

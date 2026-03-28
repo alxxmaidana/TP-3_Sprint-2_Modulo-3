@@ -34,6 +34,12 @@ class SuperheroRepository extends IRepository {
 	async eliminarSuperheroe(nombreSuperheroe) {
 		return await Superhero.deleteOne({ nombreSuperheroe: nombreSuperheroe });
 	}
+
+	// ACTUALIZAR SUPERHÉROE
+	async actualizarSuperheroe(id, operacion) {
+		return await Superhero.findByIdAndUpdate(id, operacion, { new: true });
+		// { new: true } => retorna el documento actualizado
+	}
 }
 
 export default new SuperheroRepository();
