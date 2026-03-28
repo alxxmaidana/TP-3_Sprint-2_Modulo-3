@@ -26,9 +26,9 @@ router.get("/heroes/mayores-30", obtenerSuperheroesMayoresDe30Controller);
 // Ruta para Intertar un nuevo superheroe
 router.post("/heroes", agregarNuevoSuperheroeController);
 
-// Ruta para eliminar un sueperheroe
+// Ruta para eliminar un sueperheroe por su nombre de superhéroe
 router.delete(
-	"/heroes/eliminar/:nombre",
+	"/heroes/eliminar/:nombreSuperheroe",
 	eliminarSueperheroePorNombreController,
 );
 
